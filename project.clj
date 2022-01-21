@@ -5,7 +5,7 @@
             :url "https://www.eclipse.org/legal/epl-2.0/"}
   :dependencies [
                  [org.clojure/clojure "1.10.3"]
-                 [org.clojure/data.json "2.3.1"]
+                 [org.clojure/data.json "2.4.0"]
                  [org.slf4j/slf4j-simple "1.7.32"]
 
                  [io.pedestal/pedestal.service       "0.5.10"]

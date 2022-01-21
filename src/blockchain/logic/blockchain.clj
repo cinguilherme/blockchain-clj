@@ -26,11 +26,11 @@
   (int (* 76 (Math/random))))
 
 (defn create-genesis-block [{:keys [number data]}]
-  (let [pre-hashed {:number        number
-                    :nonce         (gen-nonce)
-                    :data          data
-                    :previous-hash "0000000000000000000000000000000000000000000000000000000000000000"}]
-    (pre-hash->hashed-block pre-hashed)))
+  (-> {:number        number
+       :nonce         (gen-nonce)
+       :data          data
+       :previous-hash "0000000000000000000000000000000000000000000000000000000000000000"}
+      pre-hash->hashed-block))
 
 (defn create-block [previous-block new-block-data]
   (-> {:previous-hash (-> previous-block :hash)
