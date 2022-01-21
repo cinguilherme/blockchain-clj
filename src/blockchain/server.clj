@@ -2,7 +2,8 @@
   (:require [io.pedestal.http :as http]
             [io.pedestal.http.content-negotiation :as negotiation]
             [io.pedestal.http.route :as route]
-            [blockchain.logic.blockchain :as logic]))
+            [blockchain.logic.blockchain :as logic]
+            [clojure.data.json :as json]))
 
 (def supported-types ["text/html" "application/edn" "text/plain" "application/json"])
 
@@ -19,7 +20,7 @@
 
 (defn ok [body]
   {:status  200 :body body
-   :headers {:content-type "text/html"}})
+   :headers {:content-type "application/edn"}})
 
 (def echo
   {:name ::echo
@@ -28,10 +29,27 @@
                   response (ok request)]
               (assoc context :response response)))})
 
+(def coerce-body
+  {:name ::coerce-body
+   :leave
+   (fn [context]
+     (let [accepted         (get-in context [:request :accept :field] "text/plain")
+           response         (get context :response)
+           body             (get response :body)
+           coerced-body     (case accepted
+                              "text/html"        body
+                              "text/plain"       body
+                              "application/edn"  (pr-str body)
+                              "application/json" (json/write-str body))
+           updated-response (assoc response
+                              :headers {"Content-Type" accepted}
+                              :body    coerced-body)]
+       (assoc context :response updated-response)))})
+
 (def routes
   (route/expand-routes
     #{
-      ["/hello" :get [content-neg hello-handler] :route-name :hello]
+      ["/hello" :get [content-neg coerce-body hello-handler] :route-name :hello]
       ["/hellop" :post hello-handler :route-name :hellop]
       ["/genesis" :post create-genesis :route-name :genesis]
       ["/echo" :get echo]
