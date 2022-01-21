@@ -65,4 +65,5 @@
   (mine {:previous-hash "000"
          :number 99
          :data {}})
+
   (gen-nonce))
