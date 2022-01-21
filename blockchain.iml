@@ -102,6 +102,7 @@
     <orderEntry type="library" name="Leiningen: org.clojure/core.specs.alpha:0.2.56" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/core.unify:0.5.7" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/data.codec:0.1.0" level="project" />
+    <orderEntry type="library" name="Leiningen: org.clojure/data.json:2.3.1" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/data.priority-map:0.0.7" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/data.xml:0.2.0-alpha5" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/java.classpath:0.3.0" level="project" />
@@ -150,7 +151,8 @@
     <orderEntry type="library" name="Leiningen: org.slf4j/jcl-over-slf4j:1.7.26" level="project" />
     <orderEntry type="library" name="Leiningen: org.slf4j/jul-to-slf4j:1.7.26" level="project" />
     <orderEntry type="library" name="Leiningen: org.slf4j/log4j-over-slf4j:1.7.26" level="project" />
-    <orderEntry type="library" name="Leiningen: org.slf4j/slf4j-api:1.7.26" level="project" />
+    <orderEntry type="library" name="Leiningen: org.slf4j/slf4j-api:1.7.32" level="project" />
+    <orderEntry type="library" name="Leiningen: org.slf4j/slf4j-simple:1.7.32" level="project" />
     <orderEntry type="library" name="Leiningen: org.tcrawley/dynapath:1.0.0" level="project" />
     <orderEntry type="library" name="Leiningen: potemkin:0.4.5" level="project" />
     <orderEntry type="library" name="Leiningen: prismatic/schema:1.2.0" level="project" />

@@ -25,9 +25,9 @@
 (defn- gen-nonce []
   (int (* 76 (Math/random))))
 
-(defn create-genesis-block [{:keys [number nonce data]}]
+(defn create-genesis-block [{:keys [number data]}]
   (let [pre-hashed {:number        number
-                    :nonce         nonce
+                    :nonce         (gen-nonce)
                     :data          data
                     :previous-hash "0000000000000000000000000000000000000000000000000000000000000000"}]
     (pre-hash->hashed-block pre-hashed)))
