@@ -17,5 +17,9 @@
                  [io.pedestal/pedestal.route       "0.5.10"] ;; Efficient routing algorithms and data structures
 
                  [buddy/buddy-core "1.10.413"]
+
+                 [prismatic/schema "1.2.0"]
+
+                 [nubank/state-flow "5.14.0"]
                  ]
   :repl-options {:init-ns blockchain.core})
