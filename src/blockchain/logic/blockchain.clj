@@ -32,13 +32,6 @@
        :previous-hash "0000000000000000000000000000000000000000000000000000000000000000"}
       pre-hash->hashed-block))
 
-(defn create-block [previous-block new-block-data]
-  (-> {:previous-hash (-> previous-block :hash)
-       :number        (-> previous-block :number inc)
-       :data          (:data new-block-data)
-       :nonce         (gen-nonce)}
-      pre-hash->hashed-block))
-
 (defn valid-hash? [block]
   (-> block
       :hash
@@ -56,6 +49,13 @@
     (if (valid-hash? block)
       block
       (recur (hash-block block-data)))))
+
+(defn create-block [previous-block new-block-data]
+  (-> {:previous-hash (-> previous-block :hash)
+       :number        (-> previous-block :number inc)
+       :data          (:data new-block-data)}
+      (mine)))
+
 
 (comment
   (create-genesis-block {:number 1 :nonce 244 :data {}})
