@@ -23,7 +23,7 @@
        (assoc pre-hash :hash)))
 
 (defn- gen-nonce []
-  (int (* 76 (Math/random))))
+  (int (* 7876 (Math/random))))
 
 (defn create-genesis-block [{:keys [number data]}]
   (-> {:number        number
@@ -39,8 +39,30 @@
        :nonce         (gen-nonce)}
       pre-hash->hashed-block))
 
+(defn valid-hash? [block]
+  (-> block
+      :hash
+      (clojure.string/starts-with? "00")))
+
+(defn hash-block [block-data]
+  (-> {:previous-hash (-> block-data :hash)
+       :number        (-> block-data :number inc)
+       :data          (:data block-data)
+       :nonce         (gen-nonce)}
+      pre-hash->hashed-block))
+
+(defn mine [block-data]
+  (loop [block (hash-block block-data)]
+    (if (valid-hash? block)
+      block
+      (recur (hash-block block-data)))))
+
 (comment
   (create-genesis-block {:number 1 :nonce 244 :data {}})
   (create-block (create-genesis-block {:number 1 :nonce 244 :data {}})
                 {:data {:important "yeah"}})
+
+  (mine {:previous-hash "000"
+         :number 99
+         :data {}})
   (gen-nonce))
