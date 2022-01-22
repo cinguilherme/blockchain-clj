@@ -1,10 +1,10 @@
 (ns blockchain.data.state)
 
-(def db (atom []))
+(def chain (atom []))
 
 (defn get-last-block! []
-  (let [col @db]
+  (let [col @chain]
     (last col)))
 
-(defn update-db-with-new-block! [new-block]
-  (reset! db (conj @db new-block)))
+(defn update-chain-with-new-block! [new-block]
+  (reset! chain (conj @chain new-block)))
