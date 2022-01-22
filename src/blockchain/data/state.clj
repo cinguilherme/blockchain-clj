@@ -2,6 +2,8 @@
 
 (def chain (atom []))
 
+(defn deref-chain [] @chain)
+
 (defn get-last-block! []
   (let [col @chain]
     (last col)))

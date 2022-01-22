@@ -1,6 +1,7 @@
 (ns blockchain.http.handlers
   (:require [blockchain.logic.blockchain :as logic]
-            [blockchain.data.state :as state]))
+            [blockchain.data.state :as state]
+            [blockchain.logic.hashing :as l.hashing]))
 
 
 (defn hello-handler [req]
@@ -32,6 +33,12 @@
        :body   mined})))
 
 (defn show-chain [req]
-  (let [db state/chain]
+  (let [chain state/chain]
     {:status 200
-     :body   @db}))
+     :body   @chain}))
+
+(defn is-valid? [req]
+  (let [chain (state/deref-chain)
+        valid? (blockchain.logic.prof-of-work/is-chain-valid? chain)]
+    {:status 200
+     :body   {:valid? valid?}}))

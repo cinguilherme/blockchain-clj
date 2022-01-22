@@ -14,11 +14,14 @@
     #{
       ["/hello" :get [content-neg bb.interceptors/coerce-body hello-handler] :route-name :hello]
       ["/hellop" :post [(body-params/body-params) hello-handler] :route-name :hellop]
+      ["/echo" :get [bb.interceptors/echo] :route-name :echo]
+
       ["/genesis" :post create-genesis :route-name :genesis]
       ["/mine" :post [(body-params/body-params) new-block] :route-name :new-block]
-      ["/echo" :get [bb.interceptors/echo] :route-name :echo]
+
       ["/show-chain" :get show-chain :route-name :show-chain]
       ["/show-last-block" :get show-last-block :route-name :show-last-block]
+      ["/is-valid" :get is-valid? :route-name :is-valid?]
       }))
 
 (def service-map
