@@ -1,13 +1,12 @@
 (ns blockchain.http.handlers
   (:require [blockchain.logic.blockchain :as logic]
             [blockchain.data.state :as state]
-            [blockchain.logic.hashing :as l.hashing]))
-
+            [blockchain.logic.prof-of-work :as l.prof-of-work]))
 
 (defn hello-handler [req]
   {:status 200 :body req})
 
-(defn create-genesis [req]
+(defn create-genesis [_]
   (if (empty? @state/chain)
     (let [genesis (logic/create-genesis-block {:number 1 :data {:init "init"}})
           _ (state/update-chain-with-new-block! genesis)]
@@ -17,13 +16,13 @@
     {:status 400
      :body   "genesis block was already created."}))
 
-(defn show-last-block [req]
+(defn show-last-block [_]
   (let [last (state/get-last-block!)]
     {:status 200
      :body   last}))
 
 (defn new-block [req]
-  (if (empty? @state/chain)
+  (if (empty? (state/deref-chain))
     {:status 400
      :body   "chain is empty, user genesis block endpoint to start the chain"}
     (let [data (-> req :edn-params)
@@ -32,13 +31,13 @@
       {:status 201
        :body   mined})))
 
-(defn show-chain [req]
-  (let [chain state/chain]
+(defn show-chain [_]
+  (let [chain (state/deref-chain)]
     {:status 200
-     :body   @chain}))
+     :body   chain}))
 
-(defn is-valid? [req]
+(defn is-valid? [_]
   (let [chain (state/deref-chain)
-        valid? (blockchain.logic.prof-of-work/is-chain-valid? chain)]
+        valid? (l.prof-of-work/is-chain-valid? chain)]
     {:status 200
      :body   {:valid? valid?}}))
