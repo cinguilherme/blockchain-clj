@@ -8,7 +8,9 @@
    :nonce         s/Num
    :hash          s/Str
    :previous-hash s/Str
-   :data          s/Any})
+   :data          s/Any
+   :timestamp     s/Str
+   :prof          s/Num})
 
 (s/defschema PreHash
   (dissoc Block :hash))
@@ -25,17 +27,10 @@
 (defn- gen-nonce []
   (int (* 7876 (Math/random))))
 
-(defn create-genesis-block [{:keys [number data]}]
-  (-> {:number        number
-       :nonce         (gen-nonce)
-       :data          data
-       :previous-hash "0000000000000000000000000000000000000000000000000000000000000000"}
-      pre-hash->hashed-block))
-
 (defn valid-hash? [block]
   (-> block
       :hash
-      (clojure.string/starts-with? "00")))
+      (clojure.string/starts-with? "0000")))
 
 (defn hash-block [block-data]
   (-> {:previous-hash (-> block-data :hash)
@@ -50,11 +45,62 @@
       block
       (recur (hash-block block-data)))))
 
+(defn create-genesis-block [{:keys [number data]}]
+  (-> {:number        number
+       :nonce         (gen-nonce)
+       :data          data
+       :previous-hash "0000000000000000000000000000000000000000000000000000000000000000"}
+      mine))
+
 (defn create-block [previous-block new-block-data]
   (-> {:previous-hash (-> previous-block :hash)
        :number        (-> previous-block :number inc)
        :data          (:data new-block-data)}
-      (mine)))
+      mine))
+
+(defn hash-prof [prof prev-prof]
+  (-> (- (Math/pow prof 2) (Math/pow prev-prof 2))
+      str
+      hash/sha256
+      codecs/bytes->hex))
+
+(defn check-prof [prof prev-prof]
+  (-> (hash-prof prof prev-prof)
+      (clojure.string/starts-with? "0000")))
+
+(defn prof-of-work [previous-prof]
+  (loop [prof 1]
+    (if (check-prof prof previous-prof)
+      prof
+      (recur (inc prof)))))
+
+
+(defn hash-sequence-valid? [chain]
+  (loop [c chain]
+    (if (empty? c)
+      true
+      (let [block (first c)
+            nblock (second c)]
+        (if (not (= (:hash block) (:previous-hash nblock)))
+          false
+          (recur (rest c)))))))
+
+(defn is-chain-valid? [chain]
+  (loop [c chain]
+    (if (empty? c)
+      true
+      (let [block (first c)
+            nblock (second c)]
+        (cond
+          (not (= (:hash block) (:previous-hash nblock)))
+          false
+
+          (not (= (clojure.string/starts-with? "0000"
+                                               (hash-prof (:prof block) (:prof nblock)))))
+          false
+
+          :else
+          (recur (rest c)))))))
 
 
 (comment
@@ -63,7 +109,7 @@
                 {:data {:important "yeah"}})
 
   (mine {:previous-hash "000"
-         :number 99
-         :data {}})
+         :number        99
+         :data          {}})
 
   (gen-nonce))
