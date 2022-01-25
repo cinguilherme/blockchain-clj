@@ -23,5 +23,4 @@
   (create-genesis-block {:number 1 :nonce 244 :data {}})
   (create-block (create-genesis-block {:number 1 :nonce 244 :data {}})
                 {:data {:important "yeah"}})
-
-  (gen-nonce))
+  )

@@ -1,19 +1,20 @@
 (ns blockchain.logic.prof-of-work
   (:require [schema.core :as s]
-            [buddy.core.hash :as hash]
-            [buddy.core.codecs :as codecs]))
+            [buddy.core.hash :as hash :refer [sha256]]
+            [buddy.core.codecs :as codecs :refer [bytes->hex]]
+            [clojure.string :as string :refer [starts-with?]]))
 
 (def leading-zeros (str "00"))
 
 (defn hash-prof [prof prev-prof]
   (-> (- (Math/pow prof 2) (Math/pow prev-prof 2))
       str
-      hash/sha256
-      codecs/bytes->hex))
+      sha256
+      bytes->hex))
 
 (defn check-prof [prof prev-prof]
   (-> (hash-prof prof prev-prof)
-      (clojure.string/starts-with? leading-zeros)))
+      (starts-with? leading-zeros)))
 
 (defn gen-prof-of-work [previous-prof]
   (loop [prof 1]
@@ -31,7 +32,7 @@
           (not (= (:hash block) (:previous-hash next-block)))
           false
 
-          (not (= (hash-prof (:prof next-block) (:prof block))))
+          (not (true? (check-prof (:prof next-block) (:prof block))))
           false
 
           :else
