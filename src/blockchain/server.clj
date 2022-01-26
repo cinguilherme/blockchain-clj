@@ -4,7 +4,8 @@
             [io.pedestal.http.route :as route]
             [blockchain.http.handlers :refer :all]
             [blockchain.http.interceptors :as bb.interceptors]
-            [io.pedestal.http.body-params :as body-params]))
+            [io.pedestal.http.body-params :as body-params]
+            [com.fulcrologic.fulcro.server.api-middleware :as f-server]))
 
 (def supported-types ["text/html" "application/edn" "text/plain" "application/json"])
 (def content-neg (negotiation/negotiate-content supported-types))
@@ -18,6 +19,8 @@
 
       ["/genesis" :post create-genesis :route-name :genesis]
       ["/mine" :post [(body-params/body-params) new-block] :route-name :new-block]
+
+      ;["/api" :get [(f-server/wrap-api)] :route-name :pathom-api]
 
       ["/show-chain" :get show-chain :route-name :show-chain]
       ["/show-last-block" :get show-last-block :route-name :show-last-block]
