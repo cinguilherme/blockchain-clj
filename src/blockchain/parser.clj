@@ -19,14 +19,14 @@
              :list/label  "Enemies"
              :list/people [4 3]}})
 
-(defresolver doc-resolver [env {:document/keys [id]}]
-  {::pc/input #{:document/id}
+(defresolver doc-resolver [env {:person/keys [id]}]
+  {::pc/input #{:person/id}
    ::pc/output [:document/id :document/title]}
   (get doc-trable id))
 
 (defresolver person-resolver [env {:person/keys [id]}]
   {::pc/input  #{:person/id}
-   ::pc/output [:person/name :person/age]}
+   ::pc/output [:person/name :person/age :person/document]}
   (get people-table id))
 
 (defresolver list-resolver [env {:list/keys [id]}]
