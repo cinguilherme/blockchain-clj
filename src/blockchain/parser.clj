@@ -1,6 +1,4 @@
-(ns blockchain.parser)
-
-(ns app.parser
+(ns blockchain.parser
   (:require [com.wsscode.pathom.core :as p]
             [com.wsscode.pathom.connect :as pc]
             [taoensso.timbre :as log]))
@@ -56,3 +54,10 @@
 (defn api-parser [query]
   (log/info "Process" query)
   (pathom-parser {} query))
+
+(defn api-handler [req]
+  (let [q (-> req :edn-params :query)
+        par (api-parser q)]
+    (do (println par)
+        {:status 200
+         :body par})))

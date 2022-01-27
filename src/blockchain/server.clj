@@ -3,6 +3,7 @@
             [io.pedestal.http.content-negotiation :as negotiation]
             [io.pedestal.http.route :as route]
             [blockchain.http.handlers :refer :all]
+            [blockchain.parser :refer [api-handler]]
             [blockchain.http.interceptors :as bb.interceptors]
             [io.pedestal.http.body-params :as body-params]
             [com.fulcrologic.fulcro.server.api-middleware :as f-server]))
@@ -20,7 +21,7 @@
       ["/genesis" :post create-genesis :route-name :genesis]
       ["/mine" :post [(body-params/body-params) new-block] :route-name :new-block]
 
-      ;["/api" :get [(f-server/wrap-api)] :route-name :pathom-api]
+      ["/api" :post [(body-params/body-params) api-handler] :route-name :api]
 
       ["/show-chain" :get show-chain :route-name :show-chain]
       ["/show-last-block" :get show-last-block :route-name :show-last-block]
