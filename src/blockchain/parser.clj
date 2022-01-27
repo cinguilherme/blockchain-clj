@@ -1,7 +1,6 @@
 (ns blockchain.parser
   (:require [com.wsscode.pathom.core :as p]
-            [com.wsscode.pathom.connect :as pc]
-            [taoensso.timbre :as log]))
+            [com.wsscode.pathom.connect :as pc]))
 
 (def people-table
   {1 {:person/id 1 :person/name "Sally" :person/age 32}
@@ -52,7 +51,7 @@
                           (p/post-process-parser-plugin p/elide-not-found)]}))
 
 (defn api-parser [query]
-  (log/info "Process" query)
+  ;(log/info "Process" query)
   (pathom-parser {} query))
 
 (defn api-handler [req]

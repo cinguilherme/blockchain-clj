@@ -5,8 +5,7 @@
             [blockchain.http.handlers :refer :all]
             [blockchain.parser :refer [api-handler]]
             [blockchain.http.interceptors :as bb.interceptors]
-            [io.pedestal.http.body-params :as body-params]
-            [com.fulcrologic.fulcro.server.api-middleware :as f-server]))
+            [io.pedestal.http.body-params :as body-params]))
 
 (def supported-types ["text/html" "application/edn" "text/plain" "application/json"])
 (def content-neg (negotiation/negotiate-content supported-types))
