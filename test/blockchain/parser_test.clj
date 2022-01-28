@@ -9,3 +9,12 @@
       (is (= {[:person/id 1] {:person/name "Sammy" :document/title "test"}}
              (api-parser [{[:person/id 1] [:person/name
                                            :document/title]}]))))))
+
+(deftest api-parser-files-in-person
+  (testing "this has to work"
+    (is (= {[:person/id 1] {:person/name "Sally"
+                            :document/title "TLOTR"
+                            :person/files [{:file/id 1 :file/content "thing" :file/title "some"}]}}
+           (api-parser [{[:person/id 1] [:person/name
+                                         :document/title
+                                         {:person/files [:file/id :file/title :file/content]}]}])))))

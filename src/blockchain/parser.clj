@@ -3,13 +3,18 @@
             [com.wsscode.pathom.connect :as pc :refer [defresolver]]))
 
 (def people-table
-  {1 {:person/id 1 :person/name "Sally" :person/age 32 :person/document 1}
+  {1 {:person/id 1 :person/name "Sally"
+      :person/age 32 :person/document 1
+      :person/files [1]}
    2 {:person/id 2 :person/name "Joe" :person/age 22}
    3 {:person/id 3 :person/name "Fred" :person/age 11}
    4 {:person/id 4 :person/name "Bobby" :person/age 55}})
 
+(def files
+  {1 {:file/id 1 :file/title "some" :file/content "thing"}})
+
 (def doc-trable
-  { 1 {:document/id 1 :document/title "TLOTR"}})
+  {1 {:document/id 1 :document/title "TLOTR"}})
 
 (def list-table
   {:friends {:list/id     :friends
@@ -20,21 +25,27 @@
              :list/people [4 3]}})
 
 (defresolver doc-resolver [env {:person/keys [id]}]
-  {::pc/input #{:person/id}
+  {::pc/input  #{:person/id}
    ::pc/output [:document/id :document/title]}
   (get doc-trable id))
 
+(defresolver file-resolver [env {:file/keys [id]}]
+  {::pc/input #{:file/id}
+   ::pc/output [:file/id :file/content :file/title]}
+  (get files id))
+
 (defresolver person-resolver [env {:person/keys [id]}]
   {::pc/input  #{:person/id}
-   ::pc/output [:person/name :person/age :person/document]}
-  (get people-table id))
+   ::pc/output [:person/name :person/age :person/document {:person/files [:file/id]}]}
+  (let [person (get people-table id)]
+    (assoc person :person/files (mapv (fn [f] {:file/id f}) (:person/files person)))))
 
 (defresolver list-resolver [env {:list/keys [id]}]
   {::pc/input  #{:list/id}
    ::pc/output [:list/label {:list/people [:person/id]}]}
   (when-let [list (get list-table id)]
     (assoc list
-           :list/people (mapv (fn [id] {:person/id id}) (:list/people list)))))
+      :list/people (mapv (fn [id] {:person/id id}) (:list/people list)))))
 
 (defresolver friends-resolver [env input]
   {::pc/output [{:friends [:list/id]}]}
@@ -44,7 +55,7 @@
   {::pc/output [{:enemies [:list/id]}]}
   {:enemies {:list/id :enemies}})
 
-(def resolvers [person-resolver doc-resolver list-resolver friends-resolver enemies-resolver])
+(def resolvers [person-resolver file-resolver doc-resolver list-resolver friends-resolver enemies-resolver])
 
 (def pathom-parser
   (p/parser {::p/env     {::p/reader                 [p/map-reader
@@ -59,7 +70,6 @@
                           (p/post-process-parser-plugin p/elide-not-found)]}))
 
 (defn api-parser [query]
-  ;(log/info "Process" query)
   (pathom-parser {} query))
 
 (defn api-handler [req]
@@ -67,4 +77,4 @@
         par (api-parser q)]
     (do (println par)
         {:status 200
-         :body par})))
+         :body   par})))
