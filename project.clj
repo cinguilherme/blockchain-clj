@@ -22,5 +22,7 @@
 
                  [prismatic/schema "1.2.0"]
 
+                 [nubank/state-flow "5.14.0"]
+
                  [clj-kondo "2022.01.15"]]
   :repl-options {:init-ns blockchain.server})
