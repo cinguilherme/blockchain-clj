@@ -38,6 +38,8 @@
     <orderEntry type="library" name="Leiningen: com.fulcrologic/guardrails:0.0.12" level="project" />
     <orderEntry type="library" name="Leiningen: com.googlecode.json-simple/json-simple:1.1.1" level="project" />
     <orderEntry type="library" name="Leiningen: com.rpl/specter:1.0.5" level="project" />
+    <orderEntry type="library" name="Leiningen: com.stuartsierra/component:1.0.0" level="project" />
+    <orderEntry type="library" name="Leiningen: com.stuartsierra/dependency:1.0.0" level="project" />
     <orderEntry type="library" name="Leiningen: com.taoensso/encore:2.91.0" level="project" />
     <orderEntry type="library" name="Leiningen: com.taoensso/timbre:4.10.0" level="project" />
     <orderEntry type="library" name="Leiningen: com.taoensso/truss:1.5.0" level="project" />

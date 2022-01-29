@@ -22,6 +22,8 @@
 
                  [prismatic/schema "1.2.0"]
 
+                 [com.stuartsierra/component "1.0.0"]
+
                  [nubank/state-flow "5.14.0"]
 
                  [clj-kondo "2022.01.15"]]
