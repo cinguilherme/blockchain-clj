@@ -2,12 +2,13 @@
   (:require [blockchain.data.tables :as t]
             [com.wsscode.pathom.connect :as pc :refer [defresolver]]
             [schema.core :as s]
-            [blockchain.pathom.logic.document :as d]))
+            [blockchain.pathom.logic.document :as d]
+            [blockchain.pathom.logic.person :as b.l.person]))
 
 (defresolver doc-resolver [_ {:person/keys [id]}]
   {::pc/input  #{:person/id}
    ::pc/output [:document/id :document/title]}
-  (d/doc-output-resolver t/doc-trable id))
+  (d/doc-output-resolver t/doc-table id))
 
 (defresolver file-resolver [_ {:file/keys [id]}]
   {::pc/input  #{:file/id}
@@ -24,8 +25,9 @@
 (defresolver person-resolver [_ {:person/keys [id]}]
   {::pc/input  #{:person/id}
    ::pc/output [:person/name :person/age :person/document {:person/files [:file/id]}]}
-  (let [person (get t/people-table id)]
-    (assoc person :person/files (mapv (fn [f] {:file/id f}) (:person/files person)))))
+  (->> id
+       (get t/people-table)
+       b.l.person/person-files->output))
 
 (defresolver list-resolver [_ {:list/keys [id]}]
   {::pc/input  #{:list/id}
