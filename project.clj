@@ -23,6 +23,8 @@
                  [prismatic/schema "1.2.0"]
 
                  [com.stuartsierra/component "1.0.0"]
+                 [com.stuartsierra/component.repl "0.2.0"]
+                 [com.stuartsierra/dependency "1.0.0"]
 
                  [nubank/state-flow "5.14.0"]
 

@@ -1,11 +1,11 @@
-(ns blockchain.components.sample
+(ns blockchain.components.pedestal
   (:require [com.stuartsierra.component :as component]
             [io.pedestal.http :as http]))
 
 (defn test? [service-map]
   (= :test (:env service-map)))
 
-(defrecord SampleComp [service-map service]
+(defrecord Pedestal [service-map service]
 
   component/Lifecycle
 
@@ -21,3 +21,6 @@
               true http/create-server
               (not (test? service-map)) http/start
               true ((partial assoc this :service))))))
+
+(defn new-pedestal []
+  (map->Pedestal {}))

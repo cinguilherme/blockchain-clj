@@ -2,7 +2,8 @@
   (:require [io.pedestal.http :as http]
             [blockchain.http.handlers :refer :all]
             [blockchain.parser :refer [api-handler]]
-            [blockchain.http.routes :refer [routes]]))
+            [blockchain.http.routes :refer [routes]]
+            [blockchain.system :as system]))
 
 
 (def service-map
