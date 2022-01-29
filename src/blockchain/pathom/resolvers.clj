@@ -11,9 +11,9 @@
 (defresolver file-resolver [env {:file/keys [id]}]
              {::pc/input  #{:file/id}
               ::pc/output [:file/id :file/content :file/title :file/author]}
-             (let [filex (get files id)
-                   aid (:file/author filex)]
-               (assoc filex :file/author {:author/id aid})))
+             (let [file (get files id)
+                   aid (:file/author file)]
+               (assoc file :file/author {:author/id aid})))
 
 (defresolver author-resolver [env {:author/keys [id]}]
              {::pc/input  #{:author/id}
