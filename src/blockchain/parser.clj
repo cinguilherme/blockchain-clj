@@ -1,17 +1,16 @@
 (ns blockchain.parser
   (:require [com.wsscode.pathom.core :as p]
-            [com.wsscode.pathom.connect :as pc :refer [defresolver]]
-            [blockchain.data.tables :refer :all]
-            [blockchain.pathom.resolvers :refer :all]))
+            [com.wsscode.pathom.connect :as pc]
+            [blockchain.pathom.resolvers :as r]))
 
 (def resolvers
-  [person-resolver
-   author-resolver
-   file-resolver
-   doc-resolver
-   list-resolver
-   friends-resolver
-   enemies-resolver])
+  [r/person-resolver
+   r/author-resolver
+   r/file-resolver
+   r/doc-resolver
+   r/list-resolver
+   r/friends-resolver
+   r/enemies-resolver])
 
 (def pathom-parser
   (p/parser {::p/env     {::p/reader                 [p/map-reader
@@ -31,6 +30,5 @@
 (defn api-handler [req]
   (let [q (-> req :edn-params :query)
         par (api-parser q)]
-    (do (println par)
-        {:status 200
-         :body   par})))
+    {:status 200
+     :body   par}))
