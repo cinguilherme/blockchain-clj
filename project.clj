@@ -15,6 +15,8 @@
                  [io.pedestal/pedestal.interceptor "0.5.10"] ;; The Interceptor chain and the Interceptor API
                  [io.pedestal/pedestal.route "0.5.10"]      ;; Efficient routing algorithms and data structures
 
+                 [environ "1.2.0"]
+
                  [lafuente/pathom-pedestal "0.1.7"]
                  [com.wsscode/pathom "2.4.0"]
 

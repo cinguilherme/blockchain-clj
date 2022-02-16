@@ -41,6 +41,7 @@
     <orderEntry type="library" name="Leiningen: com.stuartsierra/component.repl:0.2.0" level="project" />
     <orderEntry type="library" name="Leiningen: com.stuartsierra/component:1.0.0" level="project" />
     <orderEntry type="library" name="Leiningen: com.stuartsierra/dependency:1.0.0" level="project" />
+    <orderEntry type="library" name="Leiningen: com.rpl/specter:1.0.5" level="project" />
     <orderEntry type="library" name="Leiningen: com.taoensso/encore:2.91.0" level="project" />
     <orderEntry type="library" name="Leiningen: com.taoensso/timbre:4.10.0" level="project" />
     <orderEntry type="library" name="Leiningen: com.taoensso/truss:1.5.0" level="project" />
@@ -53,6 +54,7 @@
     <orderEntry type="library" name="Leiningen: crypto-equality:1.0.0" level="project" />
     <orderEntry type="library" name="Leiningen: crypto-random:1.2.0" level="project" />
     <orderEntry type="library" name="Leiningen: edn-query-language/eql:1.0.0" level="project" />
+    <orderEntry type="library" name="Leiningen: environ:1.2.0" level="project" />
     <orderEntry type="library" name="Leiningen: environ:1.1.0" level="project" />
     <orderEntry type="library" name="Leiningen: expound:0.7.2" level="project" />
     <orderEntry type="library" name="Leiningen: fipp:0.6.17" level="project" />
